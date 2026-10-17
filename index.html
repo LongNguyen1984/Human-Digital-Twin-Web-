@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Human Digital Twin | LongNguyen1984</title>
+    <meta name="description" content="Human Digital Twin – bản sao số cá nhân kết hợp lá số Tử vi, dữ liệu sức khỏe, gia đình và cộng đồng trên một kiến trúc plugin mở.">
+    <meta property="og:title" content="Human Digital Twin">
+    <meta property="og:description" content="Bản sao số cá nhân: Thiên (Tử vi) · Địa (bối cảnh, gia đình) · Nhân (thể chất & phản tư).">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#0B0F19">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230B0F19'/%3E%3Ccircle cx='16' cy='16' r='7' fill='none' stroke='%2314B8A6' stroke-width='2.5'/%3E%3Ccircle cx='16' cy='16' r='2.5' fill='%233B82F6'/%3E%3C/svg%3E">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#0B0F19',
+                            card: '#111827',
+                            accent: '#3B82F6',
+                            teal: '#14B8A6',
+                            purple: '#8B5CF6',
+                            rose: '#F43F5E',
+                            amber: '#F59E0B'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glow-effect { box-shadow: 0 0 25px -5px rgba(59, 130, 246, 0.3); }
+        .tech-border { border: 1px solid rgba(255, 255, 255, 0.1); }
+        section[id] { scroll-margin-top: 4.5rem; }
+        input[type=range]:focus-visible { outline: 2px solid #3B82F6; outline-offset: 4px; }
+    </style>
+</head>
+<body class="bg-brand-dark text-slate-200 font-sans antialiased selection:bg-brand-accent selection:text-white">
+
+    <!-- NAVIGATION -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-brand-dark/80 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+            <a href="#" class="flex items-center space-x-3 min-w-0">
+                <span class="relative flex w-3 h-3 shrink-0">
+                    <span class="absolute inline-flex h-full w-full rounded-full bg-brand-teal opacity-60 animate-ping"></span>
+                    <span class="relative inline-flex w-3 h-3 rounded-full bg-brand-teal"></span>
+                </span>
+                <span class="font-mono font-bold text-sm sm:text-lg tracking-wider text-white truncate">
+                    Human<span class="text-brand-accent">DigitalTwin</span>
+                </span>
+            </a>
+            <div class="hidden md:flex space-x-8 text-sm font-medium">
+                <a href="#about" class="hover:text-brand-accent transition">Tổng quan</a>
+                <a href="#architecture" class="hover:text-brand-accent transition">Kiến trúc</a>
+                <a href="#how" class="hover:text-brand-accent transition">Cách hoạt động</a>
+                <a href="#roadmap" class="hover:text-brand-accent transition">Lộ trình</a>
+                <a href="#invest" class="hover:text-brand-accent transition">Hợp tác</a>
+            </div>
+            <div class="flex items-center gap-2">
+                <a href="https://github.com/LongNguyen1984/human-digital-twin" target="_blank" rel="noopener" class="inline-flex items-center space-x-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-mono px-3 sm:px-4 py-2 rounded-lg border border-slate-700 transition">
+                    <i class="fab fa-github text-base"></i>
+                    <span class="hidden sm:inline">GitHub</span>
+                </a>
+                <button id="menu-btn" class="md:hidden w-9 h-9 rounded-lg border border-slate-700 bg-slate-800 text-white" aria-label="Mở menu" aria-expanded="false" aria-controls="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden border-t border-slate-800 bg-brand-dark/95 px-4 py-3 space-y-1 text-sm">
+            <a href="#about" class="block py-2 hover:text-brand-accent">Tổng quan</a>
+            <a href="#architecture" class="block py-2 hover:text-brand-accent">Kiến trúc</a>
+            <a href="#how" class="block py-2 hover:text-brand-accent">Cách hoạt động</a>
+            <a href="#roadmap" class="block py-2 hover:text-brand-accent">Lộ trình</a>
+            <a href="#invest" class="block py-2 hover:text-brand-accent">Hợp tác</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
+        <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <div class="inline-flex items-center space-x-2 bg-brand-accent/10 border border-brand-accent/30 text-brand-accent px-4 py-1.5 rounded-full text-xs font-mono uppercase tracking-widest mb-6">
+                <i class="fas fa-microchip"></i>
+                <span>Tầm nhìn &amp; Lộ trình</span>
+            </div>
+
+            <h1 class="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-tight mb-6">
+                HUMAN DIGITAL TWIN
+            </h1>
+
+            <p class="text-xl md:text-2xl font-light text-slate-300 max-w-3xl mx-auto mb-8 leading-relaxed">
+                Bản sao số của chính bạn — hiểu cơ thể, gia đình và nhịp sống của bạn theo thời gian.
+            </p>
+
+            <p class="text-sm md:text-base text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+                Một nền tảng gom dữ liệu sức khỏe, thông tin gia đình, bối cảnh sống và lá số Tử vi vào cùng một hồ sơ cá nhân,
+                thu thập tự nhiên qua trò chuyện, biểu mẫu và tệp nhập, và <span class="text-slate-200">chỉ lưu khi chính bạn xác nhận</span>.
+            </p>
+
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#interactive-demo" class="bg-brand-accent hover:bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:shadow-brand-accent/50 transition">
+                    <i class="fas fa-play mr-2"></i> Xem mô phỏng
+                </a>
+                <a href="#invest" class="bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold px-6 py-3 rounded-lg border border-slate-700 transition">
+                    <i class="fas fa-handshake mr-2"></i> Hợp tác &amp; đầu tư
+                </a>
+            </div>
+
+            <div class="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl mx-auto text-left">
+                <div class="bg-brand-card/70 tech-border rounded-lg p-3">
+                    <div class="font-mono text-2xl font-bold text-white">5</div>
+                    <div class="text-xs text-slate-400">plugin đang chạy</div>
+                </div>
+                <div class="bg-brand-card/70 tech-border rounded-lg p-3">
+                    <div class="font-mono text-2xl font-bold text-white">37</div>
+                    <div class="text-xs text-slate-400">bài kiểm thử tự động</div>
+                </div>
+                <div class="bg-brand-card/70 tech-border rounded-lg p-3">
+                    <div class="font-mono text-2xl font-bold text-white">12</div>
+                    <div class="text-xs text-slate-400">cung Tử vi · 14 chính tinh</div>
+                </div>
+                <div class="bg-brand-card/70 tech-border rounded-lg p-3">
+                    <div class="font-mono text-2xl font-bold text-white">9</div>
+                    <div class="text-xs text-slate-400">vùng cơ thể trên mô hình 3D</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- SECTION 1: PROBLEM -->
+    <section id="about" class="py-16 bg-slate-900/50 border-t border-b border-slate-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-xs font-mono text-brand-teal uppercase tracking-widest mb-2 text-center">Bối cảnh</h2>
+            <h3 class="text-3xl font-bold text-white text-center mb-12">Khoảng trống chúng tôi muốn lấp</h3>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-brand-card p-6 rounded-xl tech-border hover:border-brand-rose/50 transition">
+                    <div class="w-12 h-12 rounded-lg bg-brand-rose/10 text-brand-rose flex items-center justify-center text-xl mb-4">
+                        <i class="fas fa-heart-crack"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-3">Dữ liệu rời rạc</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Ứng dụng theo dõi sức khỏe đo nhịp tim, bước chân, giấc ngủ, nhưng tách rời khỏi tâm lý, gia đình và bối cảnh sống thực tế của người dùng.
+                    </p>
+                </div>
+
+                <div class="bg-brand-card p-6 rounded-xl tech-border hover:border-brand-purple/50 transition">
+                    <div class="w-12 h-12 rounded-lg bg-brand-purple/10 text-brand-purple flex items-center justify-center text-xl mb-4">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-3">Trợ lý AI thiếu ký ức</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Trợ lý AI phổ thông không có ký ức dài hạn có cấu trúc về một con người cụ thể, nên khó đồng hành lâu dài và cá nhân hóa thật sự.
+                    </p>
+                </div>
+
+                <div class="bg-brand-card p-6 rounded-xl tech-border hover:border-brand-amber/50 transition">
+                    <div class="w-12 h-12 rounded-lg bg-brand-amber/10 text-brand-amber flex items-center justify-center text-xl mb-4">
+                        <i class="fas fa-yin-yang"></i>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-3">Văn hóa bị bỏ quên</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Người Việt vẫn dùng âm lịch, Can Chi, lá số Tử vi để suy ngẫm về bản thân, nhưng chưa có sản phẩm nào đặt chúng cạnh dữ liệu hiện đại một cách nghiêm túc và minh bạch.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: PILLARS -->
+    <section id="architecture" class="py-20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-xs font-mono text-brand-accent uppercase tracking-widest mb-2">Giải pháp</h2>
+                <h3 class="text-3xl font-bold text-white">Ba trụ cột Thiên · Địa · Nhân</h3>
+                <p class="text-slate-400 mt-2 text-sm max-w-2xl mx-auto">Mỗi trụ cột là một nhóm plugin độc lập: có thể xây, kiểm thử, bật/tắt hoặc thay thế mà không ảnh hưởng phần còn lại.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-brand-card p-6 rounded-xl tech-border relative overflow-hidden hover:border-brand-accent transition">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-brand-accent"></div>
+                    <div class="text-brand-accent font-mono text-xs mb-2">THIÊN · Thời gian &amp; chu kỳ</div>
+                    <h4 class="text-lg font-bold text-white mb-3">Tử vi Engine</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Âm lịch Việt Nam (UTC+7, phương pháp thiên văn của Hồ Ngọc Đức), Can Chi, Nạp âm, 12 cung, Cục, 14 chính tinh và Đại vận. Lá số được tính tất định và lưu kèm phiên bản quy tắc.
+                    </p>
+                    <div class="bg-slate-900 p-3 rounded text-xs font-mono text-slate-300 leading-relaxed">
+                        • Lunar calendar (UTC+7)<br>
+                        • 12 palaces · 14 main stars<br>
+                        • Versioned, recomputable charts
+                    </div>
+                </div>
+
+                <div class="bg-brand-card p-6 rounded-xl tech-border relative overflow-hidden hover:border-brand-amber transition">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-brand-amber"></div>
+                    <div class="text-brand-amber font-mono text-xs mb-2">ĐỊA · Bối cảnh &amp; quan hệ</div>
+                    <h4 class="text-lg font-bold text-white mb-3">Hồ sơ, Gia đình, Cộng đồng</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        Hồ sơ cá nhân, người thân như những "hồ sơ bóng" có quan hệ với nhau, và sau này là các phòng cộng đồng có kiểm duyệt với danh tính ẩn danh.
+                    </p>
+                    <div class="bg-slate-900 p-3 rounded text-xs font-mono text-slate-300 leading-relaxed">
+                        • Profile &amp; consent<br>
+                        • Family graph<br>
+                        • Moderated community
+                    </div>
+                </div>
+
+                <div class="bg-brand-card p-6 rounded-xl tech-border relative overflow-hidden hover:border-brand-teal transition">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-brand-teal"></div>
+                    <div class="text-brand-teal font-mono text-xs mb-2">NHÂN · Thể chất &amp; phản tư</div>
+                    <h4 class="text-lg font-bold text-white mb-3">Cơ thể &amp; Trò chuyện</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed mb-4">
+                        9 vùng cơ thể gắn với mô hình 3D, ghi nhận triệu chứng, điểm trạng thái và cảnh báo khẩn cấp (gọi 115). Tiếp theo: tín hiệu PPG từ thiết bị đeo và trò chuyện phản tư.
+                    </p>
+                    <div class="bg-slate-900 p-3 rounded text-xs font-mono text-slate-300 leading-relaxed">
+                        • 3D body regions<br>
+                        • Red-flag safety (115)<br>
+                        • PPG &amp; reflection (next)
+                    </div>
+                </div>
+            </div>
+
+            <p class="mt-8 text-center text-xs text-slate-500 max-w-2xl mx-auto">
+                Nguyên tắc tách biệt: Tử vi có thể hiển thị cạnh dữ liệu cơ thể nhưng <span class="text-slate-300">không bao giờ ghi vào</span> dữ liệu sức khỏe.
+            </p>
+        </div>
+    </section>
+
+    <!-- SECTION 3: HOW DATA FLOWS -->
+    <section id="how" class="py-20 bg-slate-900/50 border-t border-b border-slate-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-14">
+                <h2 class="text-xs font-mono text-brand-teal uppercase tracking-widest mb-2">Cách hoạt động</h2>
+                <h3 class="text-3xl font-bold text-white">Mọi dữ liệu đi qua một đường duy nhất</h3>
+                <p class="text-slate-400 mt-2 text-sm max-w-2xl mx-auto">Dù đến từ trò chuyện, biểu mẫu, tệp Excel hay thiết bị đeo, thông tin đều trở thành một "fact" và chỉ được lưu sau khi bạn xác nhận.</p>
+            </div>
+
+            <ol class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                <li class="bg-brand-card tech-border rounded-xl p-5">
+                    <div class="font-mono text-xs text-brand-accent mb-2">01 · NHẬP</div>
+                    <p class="text-sm text-slate-300">Bạn nhắn: <span class="italic text-white">"Mẹ sinh giờ Thìn"</span></p>
+                </li>
+                <li class="bg-brand-card tech-border rounded-xl p-5">
+                    <div class="font-mono text-xs text-brand-accent mb-2">02 · TRÍCH XUẤT</div>
+                    <p class="text-sm text-slate-300">Plugin liên quan đề xuất một fact, bỏ qua nếu độ tin cậy dưới 0.5.</p>
+                </li>
+                <li class="bg-brand-card tech-border rounded-xl p-5">
+                    <div class="font-mono text-xs text-brand-teal mb-2">03 · XÁC NHẬN</div>
+                    <p class="text-sm text-slate-300">Bạn thấy thẻ "đã ghi nhận" và có thể duyệt, sửa hoặc từ chối.</p>
+                </li>
+                <li class="bg-brand-card tech-border rounded-xl p-5">
+                    <div class="font-mono text-xs text-brand-teal mb-2">04 · ĐỒNG Ý</div>
+                    <p class="text-sm text-slate-300">Dữ liệu sức khỏe cần quyền <code class="font-mono text-xs">health</code>, người thân cần quyền <code class="font-mono text-xs">family</code>.</p>
+                </li>
+                <li class="bg-brand-card tech-border rounded-xl p-5 sm:col-span-2 lg:col-span-1">
+                    <div class="font-mono text-xs text-brand-purple mb-2">05 · CẬP NHẬT</div>
+                    <p class="text-sm text-slate-300">Hồ sơ của Mẹ được cập nhật, lá số Tử vi của Mẹ tự tính lại.</p>
+                </li>
+            </ol>
+
+            <div class="mt-12 grid md:grid-cols-5 gap-3 text-xs font-mono">
+                <div class="md:col-span-5 text-slate-500 uppercase tracking-widest mb-1">Kiến trúc phân tầng</div>
+                <div class="bg-brand-card tech-border rounded-lg p-3"><span class="text-slate-500">L6</span> <span class="text-white">Clients</span><br><span class="text-slate-400">Web · Mobile · 3D</span></div>
+                <div class="bg-brand-card tech-border rounded-lg p-3"><span class="text-slate-500">L5</span> <span class="text-white">API Gateway</span><br><span class="text-slate-400">Fastify · /api/&lt;plugin&gt;</span></div>
+                <div class="bg-brand-card tech-border rounded-lg p-3"><span class="text-slate-500">L4</span> <span class="text-white">Experience</span><br><span class="text-slate-400">Chat · onboarding</span></div>
+                <div class="bg-brand-card tech-border rounded-lg p-3"><span class="text-slate-500">L3</span> <span class="text-white">Domain</span><br><span class="text-slate-400">profile · tuvi · body · family</span></div>
+                <div class="bg-brand-card tech-border rounded-lg p-3"><span class="text-slate-500">L2–1</span> <span class="text-white">Kernel &amp; Storage</span><br><span class="text-slate-400">events · facts · consent</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: INTERACTIVE DEMO -->
+    <section id="interactive-demo" class="py-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <h2 class="text-xs font-mono text-brand-teal uppercase tracking-widest mb-2">Trải nghiệm</h2>
+                <h3 class="text-2xl font-bold text-white">Mô phỏng trạng thái Digital Twin</h3>
+                <p class="text-slate-400 mt-2 text-sm">Kéo thanh trượt để xem Twin phản hồi thế nào khi mức căng thẳng thay đổi.</p>
+            </div>
+
+            <div class="bg-brand-card p-6 sm:p-8 rounded-2xl tech-border glow-effect">
+                <div class="mb-6">
+                    <label for="stress-slider" class="text-sm font-medium text-slate-300 mb-3 flex justify-between gap-4">
+                        <span>Mức căng thẳng / tải công việc</span>
+                        <span id="stress-value" class="text-brand-accent font-mono font-bold">50%</span>
+                    </label>
+                    <input id="stress-slider" type="range" min="0" max="100" value="50" class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-500">
+                    <div class="flex justify-between text-[11px] font-mono text-slate-500 mt-2">
+                        <span>Thư thái</span><span>Cân bằng</span><span>Quá tải</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
+                        <span class="text-xs font-mono text-slate-400">THỂ CHẤT (PPG)</span>
+                        <p id="bio-output" class="text-sm font-medium text-brand-teal mt-2" aria-live="polite"></p>
+                    </div>
+                    <div class="bg-slate-900 p-4 rounded-lg border border-slate-800">
+                        <span class="text-xs font-mono text-slate-400">GỢI Ý PHẢN TƯ</span>
+                        <p id="reflect-output" class="text-sm font-medium text-brand-purple mt-2" aria-live="polite"></p>
+                    </div>
+                </div>
+
+                <p class="mt-6 text-[11px] text-slate-500 leading-relaxed">
+                    <i class="fas fa-circle-info mr-1"></i>
+                    Số liệu chỉ mang tính minh họa, không phải phép đo thật và không thay thế chẩn đoán y tế.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: ROADMAP -->
+    <section id="roadmap" class="py-20 bg-slate-900/50 border-t border-b border-slate-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-xs font-mono text-brand-purple uppercase tracking-widest mb-2">Lộ trình</h2>
+                <h3 class="text-3xl font-bold text-white">Mỗi bước là một plugin</h3>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="relative p-6 bg-brand-card rounded-xl border border-brand-teal/50">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-8 h-8 rounded-full bg-brand-teal text-white flex items-center justify-center font-bold font-mono text-sm">0</div>
+                        <span class="text-[10px] font-mono uppercase tracking-widest bg-brand-teal/15 text-brand-teal px-2 py-1 rounded">Đã xong</span>
+                    </div>
+                    <h4 class="text-lg font-bold text-white mb-2">Nền móng</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">Kernel plugin, hồ sơ, Tử vi engine, cơ thể, gia đình, trò chuyện và API, với 37 bài kiểm thử.</p>
+                </div>
+
+                <div class="relative p-6 bg-brand-card rounded-xl border border-slate-800">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-8 h-8 rounded-full bg-brand-accent text-white flex items-center justify-center font-bold font-mono text-sm">1</div>
+                        <span class="text-[10px] font-mono uppercase tracking-widest bg-brand-accent/15 text-brand-accent px-2 py-1 rounded">Tiếp theo</span>
+                    </div>
+                    <h4 class="text-lg font-bold text-white mb-2">Lưu trữ &amp; Đăng nhập</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">PostgreSQL thật, migration, đăng nhập và quy tắc truy cập chủ sở hữu / người thân.</p>
+                </div>
+
+                <div class="relative p-6 bg-brand-card rounded-xl border border-slate-800">
+                    <div class="w-8 h-8 rounded-full bg-slate-700 text-white flex items-center justify-center font-bold font-mono text-sm mb-4">2</div>
+                    <h4 class="text-lg font-bold text-white mb-2">Tử vi v0.2 &amp; Nhập dữ liệu</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">Phụ tinh, Tứ Hóa, Tuần/Triệt, Lưu niên, đối chiếu lá số chuẩn; nhập CSV/Excel/JSON.</p>
+                </div>
+
+                <div class="relative p-6 bg-brand-card rounded-xl border border-slate-800">
+                    <div class="w-8 h-8 rounded-full bg-slate-700 text-white flex items-center justify-center font-bold font-mono text-sm mb-4">3</div>
+                    <h4 class="text-lg font-bold text-white mb-2">AI &amp; Thiết bị</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">LLM trích xuất dữ liệu và luận giải lá số; kết nối Apple Health / Health Connect.</p>
+                </div>
+
+                <div class="relative p-6 bg-brand-card rounded-xl border border-slate-800">
+                    <div class="w-8 h-8 rounded-full bg-slate-700 text-white flex items-center justify-center font-bold font-mono text-sm mb-4">4</div>
+                    <h4 class="text-lg font-bold text-white mb-2">Kết nối &amp; Cộng đồng</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">Ghép nối tương đồng chỉ khi người dùng chủ động đồng ý; phòng cộng đồng có kiểm duyệt.</p>
+                </div>
+
+                <div class="relative p-6 bg-brand-card rounded-xl border border-slate-800">
+                    <div class="w-8 h-8 rounded-full bg-slate-700 text-white flex items-center justify-center font-bold font-mono text-sm mb-4">5</div>
+                    <h4 class="text-lg font-bold text-white mb-2">Ứng dụng Web &amp; 3D</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">11 màn hình đã thiết kế, trình xem cơ thể 3D và nút trò chuyện động.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6: WHY / FOUNDER -->
+    <section id="invest" class="py-20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-xs font-mono text-brand-teal uppercase tracking-widest mb-2">Cơ hội hợp tác</h2>
+                <h3 class="text-3xl font-bold text-white">Vì sao là dự án này</h3>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6 mb-12">
+                <div class="bg-brand-card p-6 rounded-xl border border-slate-800">
+                    <i class="fas fa-user-graduate text-2xl text-brand-teal mb-4"></i>
+                    <h4 class="text-base font-bold text-white mb-2">Năng lực nhà sáng lập</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Tiến sĩ về công nghệ giám sát sức khỏe (PPG/AI); kinh nghiệm kỹ sư phần mềm ô tô, Embedded Linux, kiến trúc Cloud và Agentic AI.
+                    </p>
+                </div>
+
+                <div class="bg-brand-card p-6 rounded-xl border border-slate-800">
+                    <i class="fas fa-chart-line text-2xl text-brand-accent mb-4"></i>
+                    <h4 class="text-base font-bold text-white mb-2">Thị trường đang chuyển dịch</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Sức khỏe số và trợ lý AI cá nhân đang tăng trưởng nhanh, chuyển từ ghi nhận thụ động sang dự báo và đồng hành chủ động.
+                    </p>
+                </div>
+
+                <div class="bg-brand-card p-6 rounded-xl border border-slate-800">
+                    <i class="fas fa-shield-halved text-2xl text-brand-purple mb-4"></i>
+                    <h4 class="text-base font-bold text-white mb-2">Tin cậy từ thiết kế</h4>
+                    <p class="text-slate-400 text-sm leading-relaxed">
+                        Không lưu gì khi chưa được xác nhận, quyền đồng ý tách theo từng loại dữ liệu, và sức khỏe tách bạch khỏi phần chiêm nghiệm Tử vi.
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-r from-brand-accent/20 via-brand-purple/20 to-brand-teal/20 p-8 sm:p-12 rounded-2xl border border-slate-700 text-center">
+                <h4 class="text-2xl font-bold text-white mb-4">Cùng kiến tạo tương lai của trợ lý số cá nhân</h4>
+                <p class="text-slate-300 text-sm max-w-2xl mx-auto mb-8">
+                    Chúng tôi đang tìm vốn hạt giống (Seed), đồng sáng lập, và đối tác thử nghiệm phần cứng sinh trắc học / AI.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="https://github.com/LongNguyen1984/human-digital-twin" target="_blank" rel="noopener" class="bg-white text-slate-900 hover:bg-slate-100 font-bold px-6 py-3 rounded-lg transition text-sm">
+                        <i class="fab fa-github mr-2"></i> Xem mã nguồn
+                    </a>
+                    <a href="https://github.com/LongNguyen1984" target="_blank" rel="noopener" class="bg-slate-800 hover:bg-slate-700 text-white font-bold px-6 py-3 rounded-lg border border-slate-600 transition text-sm">
+                        <i class="fas fa-user mr-2"></i> Liên hệ nhà sáng lập
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-8 bg-brand-dark border-t border-slate-800 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 space-y-2">
+            <p class="italic">"Biến dữ liệu sinh học và tri thức tích lũy thành điểm tựa cho sức khỏe và trí tuệ con người."</p>
+            <p>Human Digital Twin không phải thiết bị y tế. Phần Tử vi mang tính văn hóa và chiêm nghiệm, không phải lời khuyên y khoa.</p>
+            <p class="font-mono">&copy; 2026 LongNguyen1984 · Human Digital Twin</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => {
+            const open = mobileMenu.classList.toggle('hidden') === false;
+            menuBtn.setAttribute('aria-expanded', String(open));
+        });
+        mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+            menuBtn.setAttribute('aria-expanded', 'false');
+        }));
+
+        // Demo simulation (illustrative values only)
+        const slider = document.getElementById('stress-slider');
+        function updateSimulation(val) {
+            val = Number(val);
+            document.getElementById('stress-value').innerText = val + '%';
+            const bioOut = document.getElementById('bio-output');
+            const reflectOut = document.getElementById('reflect-output');
+            const hr = Math.round(60 + val * 0.3);
+
+            if (val < 35) {
+                bioOut.innerText = 'Hồi phục tốt. Nhịp tim nghỉ khoảng ' + hr + ' bpm.';
+                reflectOut.innerText = 'Thời điểm phù hợp cho việc sáng tạo và lên kế hoạch dài hạn.';
+            } else if (val <= 70) {
+                bioOut.innerText = 'Tải cân bằng. Nhịp tim khoảng ' + hr + ' bpm.';
+                reflectOut.innerText = 'Giữ nhịp hiện tại; dành 15 phút cuối ngày để nhìn lại và thả lỏng.';
+            } else {
+                bioOut.innerText = 'Dấu hiệu quá tải: HRV giảm, nhịp tim khoảng ' + hr + ' bpm.';
+                reflectOut.innerText = 'Nghỉ ngắn, thử bài tập thở chậm và ưu tiên giảm bớt việc.';
+            }
+        }
+        slider.addEventListener('input', e => updateSimulation(e.target.value));
+        updateSimulation(slider.value);
+    </script>
+</body>
+</html>
